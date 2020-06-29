@@ -18,3 +18,10 @@ router.get('/login', (req,res) => {
 })
 
 //login post route
+
+
+
+
+
+// export router
+module.exports = router
