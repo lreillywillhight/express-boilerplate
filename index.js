@@ -2,8 +2,6 @@
 require('dotenv').config()
 const Express = require('express')
 const ejsLayouts = require("express-ejs-layouts")
-// middleware for app/authentication
-// helmet, morgan, passport, and custom middleware, express-sessions, squelize sessions, flash
 const helmet = require('helmet')
 const session = require('express-session')
 const flash = require('flash')
