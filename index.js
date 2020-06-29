@@ -6,6 +6,7 @@ const helmet = require('helmet')
 const session = require('express-session')
 const flash = require('flash')
 
+
 // app setup
 const app = Express()
 app.use(Express.urlencoded({ extended: false }))
@@ -15,6 +16,7 @@ app.use(ejsLayouts)
 app.use(require('morgan')('dev'))
 app.use(helmet())
 
+
 // ROUTES
 
 app.get('/', (req, res) => {
@@ -23,7 +25,11 @@ app.get('/', (req, res) => {
 })
 
 
+// INCLUDE AUTH CONTROLLERS
+
+app.use('/auth', require('./controllers/auth'))
 
 
+// INITIALIZE APP ON PORT   
 
 app.listen(process.env.PORT || 3000, function (port) { console.log(`port ${process.env.PORT}`) })
