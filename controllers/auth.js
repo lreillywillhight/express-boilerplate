@@ -46,9 +46,28 @@ router.get('/login', (req,res) => {
 })
 
 //login post route
+router.post('/login', (req,res) => {
+    passport.authenticate('local', function(error,user,info) {
+        if (!user) {
+            req.flash('error', 'Invalid Username or password')
+        }
+        if (error) {
+            return error;
+        }
+        req.login(function(user, error) {
+            //if error move to error
+            // if success flash success message
+            // if success save session and redirect user
+        })
+    })
+})
 
-
-
+router.post('/login',passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/auth/login',
+    successFlash: 'welcome to our app!',
+    failureFlash: 'invalid username or password.'
+}))
 
 
 // export router

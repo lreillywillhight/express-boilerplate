@@ -20,7 +20,9 @@
     "helmet": "^3.23.3",
     "morgan": "^1.10.0",
     "n-api": "^1.2.43",
-    "node-pre-gyp": "^0.15.0"
+    "node-pre-gyp": "^0.15.0",
+    "passport": "^0.4.1",
+    "sequelize": "^6.2.3"
   },
   "devDependencies": {},
   "description": ""
