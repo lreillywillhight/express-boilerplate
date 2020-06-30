@@ -1,11 +1,10 @@
-// user model dec
-// DEFINE USE CASE
-// IMPORT ANY REQ'D LIBS
+// user model decleration
 'use strict';
-const bcrypt = require('bcryptjs')
-// DEC USER MODEL FORMAT
-module.exports = function(sequelize,DataTypes) {
-    //define user object
+const bcrypt = require('bcryptjs');
+
+// declare user model format
+module.exports = function(sequelize, DataTypes) {
+    // define user object
     const user = sequelize.define('user', {
         email: {
             type: DataTypes.STRING,
@@ -19,7 +18,7 @@ module.exports = function(sequelize,DataTypes) {
             type: DataTypes.STRING,
             validate: {
                 len: {
-                    args: [1,99],
+                    args: [1, 99],
                     msg: 'Name must be between 1 and 99 characters'
                 }
             }
@@ -28,40 +27,37 @@ module.exports = function(sequelize,DataTypes) {
             type: DataTypes.STRING,
             validate: {
                 len: {
-                    args: [8,99],
-                    msg: 'Password must be between 8 and 99 characters.'
+                    args: [8, 99],
+                    msg: 'Password is of incorrect length. Double check character number.'
                 }
             }
         }
     }, {
         hooks: {
-            //before record creation
+            // before record creation
             beforeCreate: function(createdUser, options) {
                 if (createdUser && createdUser.password) {
                     let hash = bcrypt.hashSync(createdUser.password, 12);
-                    createdUser.password = hash'
+                    createdUser.password = hash;
                 }
             }
-            //take inputed password
-            //hash password
-            // return new pw as pw for new record
         }
-    })
+    });
     user.associate = function(models) {
-        // associations go here
+        // TODO: any user associations you want
     }
 
+    // validPassword definition to validate password at user login
     user.prototype.validPassword = function(passwordTyped) {
-        return bcrypt.compareSync(passwordTyped, this.password)
+        return bcrypt.compareSync(passwordTyped, this.password);
     }
-
-    // remove password before any serialization of user object
+    
+    // remove password before any serialization of User object
     user.prototype.toJSON = function() {
         let userData = this.get();
         delete userData.password;
         return userData;
     }
-
+    
     return user;
-}
-
+};
