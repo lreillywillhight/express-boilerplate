@@ -50,8 +50,8 @@ router.post('/login', (req,res,next) => {
     passport.authenticate('local', function(error,user,info) {
         if (!user) {
             req.flash('error', 'Invalid Username or password')
-            req.session.save(function('/auth/login') {
-                return res.redirect('/augh/login')
+            req.session.save(function() {
+                return res.redirect('/auth/login')
             })
         }
         if (error) {

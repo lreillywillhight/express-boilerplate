@@ -22,6 +22,7 @@
     "n-api": "^1.2.43",
     "node-pre-gyp": "^0.15.0",
     "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
     "sequelize": "^6.2.3"
   },
   "devDependencies": {},
