@@ -7,7 +7,7 @@ const session = require('express-session')
 const flash = require('flash')
 const passport = require('./config/ppConfig')
 const db = require('./models')
-// want add a link to our customer middlware for isLoggedIn
+const isLoggedIn = require('./middleware/isLoggedIn')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 
 // app setup
@@ -22,7 +22,7 @@ app.use(helmet())
 // create new instance of class Sequelize Store
 const sessionStore = new SequelizeStore({
     db: db.sequelize,
-    expiration: 1000 * 60 * 30;
+    expiration: 1000 * 60 * 30
 })
 
 app.use(session({
@@ -34,7 +34,19 @@ app.use(session({
 
 sessionStore.sync()
 
-//TODO: initialize and link flash message and passport and session
+
+// initialize passport and session info
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(flash())
+
+app.use(function(req,res,next) {
+    res.locals.alert = req.flash()
+    res.locals.currentUser = req.user
+
+    next();
+})
+
 
 
 // ROUTES
@@ -42,6 +54,10 @@ sessionStore.sync()
 app.get('/', (req, res) => {
     // check to see if user is logged in
     res.render('index')
+})
+
+app.get('/profile', isLoggedIn, function(req,res) {
+    res.render('profile')
 })
 
 
