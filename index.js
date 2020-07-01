@@ -1,6 +1,7 @@
 // NPM libraries
 require('dotenv').config()
-const Express = require('express')
+
+const Express = require('express');
 const ejsLayouts = require("express-ejs-layouts")
 const helmet = require('helmet')
 const session = require('express-session')
@@ -51,6 +52,8 @@ app.use(function (req, res, next) {
 
 
 
+
+
 // ROUTES
 
 app.get('/', (req, res) => {
@@ -63,7 +66,7 @@ app.get('/profile', isLoggedIn, function (req, res) {
 })
 
 app.get('/flash', function (req, res) {
-    req.flash('info', 'Flash is back!')
+    req.flash('index', 'Flash is back!')
     res.redirect('/');
 })
 

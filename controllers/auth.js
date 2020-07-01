@@ -49,8 +49,8 @@ router.post('/login', function (req, res, next) {
     passport.authenticate('local', function (error, user, info) {
         // if no user authenticated
         if (!user) {
-            console.log('BBBBBBBBBBBBBBBBBBBBBBBB')
-            req.flash('incorrect id/password')
+            req.flash('error', 'incorrect id/password')
+            // console.log(req.flash('info')) //untested
             return res.redirect('/auth/login');
         }
         if (error) {
