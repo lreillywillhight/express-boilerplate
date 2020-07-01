@@ -4,11 +4,12 @@ const Express = require('express')
 const ejsLayouts = require("express-ejs-layouts")
 const helmet = require('helmet')
 const session = require('express-session')
-const flash = require('flash')
+const flash = require('connect-flash')
 const passport = require('./config/ppConfig')
 const db = require('./models')
 const isLoggedIn = require('./middleware/isLoggedIn')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
+// const flash = require("connect-flash")
 
 // app setup
 const app = Express()
@@ -18,6 +19,7 @@ app.set('view engine', 'ejs')
 app.use(ejsLayouts)
 app.use(require('morgan')('dev'))
 app.use(helmet())
+// app.use(flash())
 
 // create new instance of class Sequelize Store
 const sessionStore = new SequelizeStore({
@@ -40,7 +42,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
 
-app.use(function(req,res,next) {
+app.use(function (req, res, next) {
     res.locals.alert = req.flash()
     res.locals.currentUser = req.user
 
@@ -53,12 +55,21 @@ app.use(function(req,res,next) {
 
 app.get('/', (req, res) => {
     // check to see if user is logged in
-    res.render('index')
+    res.render('index', { messages: req.flash('info')})
 })
 
-app.get('/profile', isLoggedIn, function(req,res) {
+app.get('/profile', isLoggedIn, function (req, res) {
     res.render('profile')
 })
+
+app.get('/flash', function (req, res) {
+    req.flash('info', 'Flash is back!')
+    res.redirect('/');
+})
+
+// app.get('/', function (req, res) {
+//     res.render('index', { messages: req.flash('info') });
+// })
 
 
 // INCLUDE AUTH CONTROLLERS
