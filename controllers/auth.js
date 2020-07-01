@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models');
 // import middleware
-const flash = require('flash');
+const flash = require('connect-flash');
 const passport = require("../config/ppConfig");
 
 // register get route
@@ -21,18 +21,18 @@ router.post('/register', function (req, res) {
     }).then(function ([user, created]) {
         // if user was created
         if (created) {
-            console.log("User created! 🎉");
+            // console.log("User created! 🎉");
             passport.authenticate('local', {
                 successRedirect: '/profile',
                 successFlash: 'Thanks for registering'
             })(req, res)
         } else {
-            console.log("User email already exists 🚫.");
+            // console.log("User email already exists 🚫.");
             req.flash('error', 'Error: email already exists for user. Try again.');
             res.redirect('/auth/register');
         }
     }).catch(function (err) {
-        console.log(`Error found. \nMessage: ${err.message}. \nPlease review - ${err}`);
+        // console.log(`Error found. \nMessage: ${err.message}. \nPlease review - ${err}`);
         req.flash('error', err.message);
         res.redirect('auth/register');
     })

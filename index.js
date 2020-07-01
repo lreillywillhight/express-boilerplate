@@ -44,7 +44,9 @@ app.use(passport.session())
 app.use(flash())
 
 app.use(function (req, res, next) {
-    res.locals.alert = req.flash()
+    // console.log('IIIIIIIIIIIIIIIIIIII')
+    // console.log(req.flash())
+    res.locals.alerts = req.flash()
     res.locals.currentUser = req.user
 
     next();
@@ -65,10 +67,10 @@ app.get('/profile', isLoggedIn, function (req, res) {
     res.render('profile')
 })
 
-app.get('/flash', function (req, res) {
-    req.flash('index', 'Flash is back!')
-    res.redirect('/');
-})
+// app.get('/flash', function (req, res) {
+//     req.flash('index', 'Flash is back!')
+//     res.redirect('/');
+// })
 
 // app.get('/', function (req, res) {
 //     res.render('index', { messages: req.flash('info') });
